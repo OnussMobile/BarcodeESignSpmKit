@@ -44,6 +44,15 @@ public struct ScannerView: UIViewControllerRepresentable {
     public var isRead: (Int) -> Bool
     public var isReading: (Int) -> Bool
     public var didFindCode: (String) -> Void
+    
+    public init(isScanning: Binding<Bool>, isReadText: Binding<Bool>, barcodeList: Binding<[AnyBarcodeScannable]>, isRead: @escaping (Int) -> Bool, isReading: @escaping (Int) -> Bool, didFindCode: @escaping (String) -> Void) {
+        self._isScanning = isScanning
+        self._isReadText = isReadText
+        self._barcodeList = barcodeList
+        self.isRead = isRead
+        self.isReading = isReading
+        self.didFindCode = didFindCode
+    }
 
     public class Coordinator: NSObject, AVCaptureMetadataOutputObjectsDelegate {
         public var parent: ScannerView
