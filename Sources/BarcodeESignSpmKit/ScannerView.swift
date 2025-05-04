@@ -46,7 +46,7 @@ public struct ScannerView: UIViewControllerRepresentable {
     public var isReading: (Int) -> Bool
     public var didFindCode: (String) -> Void
     
-    public init(isScanning: Binding<Bool>, isReadText: Binding<Bool>, allowMultipleCodes: Bool, barcodeColor: Bool,  barcodeList: Binding<[AnyBarcodeScannable]>, isRead: @escaping (Int) -> Bool, isReading: @escaping (Int) -> Bool, didFindCode: @escaping (String) -> Void) {
+    public init(isScanning: Binding<Bool>, isReadText: Binding<Bool>, allowMultipleCodes: Bool = true, barcodeColor: Bool = true,  barcodeList: Binding<[AnyBarcodeScannable]>, isRead: @escaping (Int) -> Bool, isReading: @escaping (Int) -> Bool, didFindCode: @escaping (String) -> Void) {
         self._isScanning = isScanning
         self._isReadText = isReadText
         self.allowMultipleCodes = allowMultipleCodes
@@ -74,17 +74,22 @@ public struct ScannerView: UIViewControllerRepresentable {
         }
 
         public func getBorderColor(for barcode: String) -> UIColor {
-            if let barcodeDetail = parent.barcodeList.first(where: { $0.Barcode == barcode }) {
-                let status = barcodeDetail.StatusId
-                if parent.isRead(status) {
-                    return .green
-                } else if parent.isReading(status) {
-                    return .yellow
-                } else {
-                    return .red
+            if parent.barcodeColor {
+                if let barcodeDetail = parent.barcodeList.first(where: { $0.Barcode == barcode }) {
+                    let status = barcodeDetail.StatusId
+                    if parent.isRead(status) {
+                        return .green
+                    } else if parent.isReading(status) {
+                        return .yellow
+                    } else {
+                        return .red
+                    }
                 }
+                return .red
+            } else {
+                return .yellow
             }
-            return .red
+            
         }
 
         public func clearBorders() {
@@ -111,9 +116,7 @@ public struct ScannerView: UIViewControllerRepresentable {
                     CATransaction.begin()
                     CATransaction.setDisableActions(true)
                     existingLayer.path = UIBezierPath(rect: transformedObject.bounds).cgPath
-                    if parent.barcodeColor {
-                        existingLayer.strokeColor = getBorderColor(for: stringValue).cgColor
-                    }
+                    existingLayer.strokeColor = getBorderColor(for: stringValue).cgColor
                     CATransaction.commit()
                 } else {
                     let boxLayer = CAShapeLayer()
