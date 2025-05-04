@@ -135,7 +135,7 @@ public struct ScannerView: UIViewControllerRepresentable {
                         }
                     } else {
                         parent.didFindCode(stringValue)
-                        parent.isScanning = false
+                        //parent.isScanning = false
                         break
                     }
                 }
