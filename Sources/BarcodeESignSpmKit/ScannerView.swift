@@ -40,6 +40,7 @@ public struct ScannerView: UIViewControllerRepresentable {
     @Binding public var isScanning: Bool
     @Binding public var isReadText: Bool
     public var allowMultipleCodes: Bool = true
+    public var barcodeColor: Bool = true
     @Binding public var barcodeList: [AnyBarcodeScannable]
     public var isRead: (Int) -> Bool
     public var isReading: (Int) -> Bool
@@ -108,7 +109,9 @@ public struct ScannerView: UIViewControllerRepresentable {
                     CATransaction.begin()
                     CATransaction.setDisableActions(true)
                     existingLayer.path = UIBezierPath(rect: transformedObject.bounds).cgPath
-                    existingLayer.strokeColor = getBorderColor(for: stringValue).cgColor
+                    if parent.barcodeColor {
+                        existingLayer.strokeColor = getBorderColor(for: stringValue).cgColor
+                    }
                     CATransaction.commit()
                 } else {
                     let boxLayer = CAShapeLayer()
@@ -242,7 +245,7 @@ public struct ScannerView: UIViewControllerRepresentable {
         if session.canAddOutput(metadataOutput) {
             session.addOutput(metadataOutput)
             metadataOutput.setMetadataObjectsDelegate(context.coordinator, queue: DispatchQueue.main)
-            metadataOutput.metadataObjectTypes = [.code128]
+            metadataOutput.metadataObjectTypes = [.code128, .qr]
         }
 
         let previewLayer = AVCaptureVideoPreviewLayer(session: session)
