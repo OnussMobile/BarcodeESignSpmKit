@@ -46,9 +46,11 @@ public struct ScannerView: UIViewControllerRepresentable {
     public var isReading: (Int) -> Bool
     public var didFindCode: (String) -> Void
     
-    public init(isScanning: Binding<Bool>, isReadText: Binding<Bool>, barcodeList: Binding<[AnyBarcodeScannable]>, isRead: @escaping (Int) -> Bool, isReading: @escaping (Int) -> Bool, didFindCode: @escaping (String) -> Void) {
+    public init(isScanning: Binding<Bool>, isReadText: Binding<Bool>, allowMultipleCodes: Bool, barcodeColor: Bool,  barcodeList: Binding<[AnyBarcodeScannable]>, isRead: @escaping (Int) -> Bool, isReading: @escaping (Int) -> Bool, didFindCode: @escaping (String) -> Void) {
         self._isScanning = isScanning
         self._isReadText = isReadText
+        self.allowMultipleCodes = allowMultipleCodes
+        self.barcodeColor = barcodeColor
         self._barcodeList = barcodeList
         self.isRead = isRead
         self.isReading = isReading
