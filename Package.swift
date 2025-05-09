@@ -4,21 +4,36 @@
 import PackageDescription
 
 let package = Package(
-    name: "BarcodeESignSpmKit",
+    name: "onuss-features-ios",
     platforms: [
         .iOS(.v15)
     ],
     products: [
-        // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
-            name: "BarcodeESignSpmKit",
-            targets: ["BarcodeESignSpmKit"]),
+            name: "ESignView",
+            targets: ["ESignView"]
+        ),
+        .library(
+            name: "ScannerView",
+            targets: ["ScannerView"]
+        ),
+        .library(
+            name: "StartRouteDialogView",
+            targets: ["StartRouteDialogView"]
+        ),
     ],
     targets: [
-        // Targets are the basic building blocks of a package, defining a module or a test suite.
-        // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "BarcodeESignSpmKit"),
-
+            name: "ESignView",
+            path: "Sources/ESignView"
+        ),
+        .target(
+            name: "ScannerView",
+            path: "Sources/ScannerView"
+        ),
+        .target(
+            name: "StartRouteDialogView",
+            path: "Sources/StartRouteDialogView"
+        ),
     ]
 )
